@@ -68,33 +68,5 @@ public class ParallelQuickSort {
 	public int[] sort(int[] array) {
 		return pool.invoke(new QuickSortTask(array));
 	}
-
-	public static void main(String[] args) {
-		int[] arr = generateArray();/*{54, 64, 95, 82, 12, 32, 63, 10, 90, 33, 54, 3432, 4334534};*/
-		ParallelQuickSort parallelQuickSort = new ParallelQuickSort(new ForkJoinPool(4));
-
-		int[] correctSort = arr.clone();
-		Arrays.sort(correctSort);
-
-		long start = currentTimeMillis();
-		int[] sort = SerialAlgorithms.serialSort(arr/*, 0, arr.length - 1*/);
-		System.out.println("serial: " + (currentTimeMillis() - start));
-		System.out.println(Arrays.equals(correctSort, sort));
-//		System.out.println(Arrays.toString(sort));
-
-		start = currentTimeMillis();
-		sort = parallelQuickSort.sort(arr/*, 0, arr.length - 1*/);
-		System.out.println("parallel: " + (currentTimeMillis() - start));
-		System.out.println(Arrays.equals(correctSort, sort));
-//		System.out.println(Arrays.toString(sort));
-	}
-
-	private static int[] generateArray() {
-		int[] array = new int[1_000_000_0];
-		for (int i = 0; i < 1_000_000_0; i++) {
-			array[i] = new Random().nextInt(1_000_000_0);
-		}
-		return array;
-	}
 }
 

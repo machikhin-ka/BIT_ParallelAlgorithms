@@ -125,41 +125,4 @@ public class ParallelAlgorithms {
 			e.printStackTrace();
 		}
 	}
-
-	//todo delete
-	public static int[] serialFilter(int[] array, IntUnaryOperator func) {
-		int[] result = new int[array.length];
-		int count = 0;
-		for (int i : array) {
-			if (func.applyAsInt(i) == 1) {
-				result[count++] = i;
-			}
-		}
-		return Arrays.copyOf(result, count);
-	}
-
-	public static void main(String[] args) {
-		ParallelAlgorithms algorithm = new ParallelAlgorithms(new ForkJoinPool(4));
-
-		int[] array = generateArray();
-
-		long start = System.currentTimeMillis();
-		int[] result1 = serialFilter(array, x -> x % 2 == 0 ? 1 : 0);
-		System.out.println(System.currentTimeMillis() - start);
-
-		start = System.currentTimeMillis();
-		int[] result2 = algorithm.filter(array, x -> x % 2 == 0 ? 1 : 0);
-		System.out.println(System.currentTimeMillis() - start);
-
-		System.out.println(Arrays.toString(result1));
-		System.out.println(Arrays.toString(result2));
-	}
-
-	private static int[] generateArray() {
-		int[] array = new int[1_000_000_0];
-		for (int i = 0; i < 1_000_000_0; i++) {
-			array[i] = new Random().nextInt(1_000_000_0);
-		}
-		return array;
-	}
 }
